@@ -12,13 +12,30 @@ export class Tresor {
      this.gegenstaende = new Array();
    }
  
+   addGegenstand(gegenstand: Gegenstand): void{
+     this.gegenstaende.push(gegenstand)
+   }
    //todo Gegenstand hinzufügen (addGegenstand)
    /**
     * Da gegenstaende ein Array ist und keine ArrayList,
     * wird zum Hinzufügen anstelle der Methode add()
     * die Methode push() benötigt!
-   
-   //todo Gegenstand finden (getGegenstand) 
+   */
+    getGegenstand(id: number): Gegenstand {
+      const foundGegenstand = this.gegenstaende.find(
+        (gegenstand) => gegenstand.id === id
+      );
+  
+      if (foundGegenstand) {
+        return foundGegenstand;
+      } else {
+        throw new GegenstandNichtGefundenError();
+      }
+    
+
+      
+   }
+    //todo Gegenstand finden (getGegenstand) 
    /**
     * Drei verschiedene Varianten des Durchsuchens des Arrays möglich:
     * a) forEach-Schleife --> in typescript 'for ... of'
@@ -29,6 +46,16 @@ export class Tresor {
     *    --> vgl. https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Array/find
     */
 
+
+  removeGegenstand(gegenstand: Gegenstand): void{
+    const foundIndex = this.gegenstaende.findIndex(item => item.id === gegenstand.id);
+
+    if (foundIndex === -1) {
+      throw new GegenstandNichtGefundenError();
+  }
+
+  this.gegenstaende = this.gegenstaende.filter((item, index) => index !== foundIndex);
+  }
    //todo Gegenstand aus Tresor nehmen (removeGegenstand)
    /**
     * 1. sinnvollerweise zunächst prüfen, ob der Gegenstand im Tresor ist
